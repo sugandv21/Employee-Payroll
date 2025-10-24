@@ -1,0 +1,64 @@
+{% extends 'payroll/layout/base.html' %}
+{% block title %}Payroll | PayrollMS{% endblock %}
+{% block content %}
+<h3 class="mb-3">Generate Salary Slip</h3>
+
+<form method="post" class="row g-3 mb-4">
+  {% csrf_token %}
+
+  {% if request.user.is_staff %}
+    <div class="col-md-4">
+      <label class="form-label">Employee</label>
+      <select name="employee" class="form-select" required>
+        <option value="">-- Select --</option>
+        {% for e in employees %}
+          <option value="{{ e.id }}">{{ e.code }} - {{ e.first_name }} {{ e.last_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  {% else %}
+    <div class="col-12">
+      <div class="alert alert-info mb-0">
+        You are generating slip for: <strong>{{ employees.0.code }}</strong> — {{ employees.0.first_name }} {{ employees.0.last_name }}
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="col-md-3">
+    <label class="form-label">Month</label>
+    <input type="month" name="month" class="form-control" required>
+  </div>
+
+  <div class="col-12">
+    <button class="btn btn-primary">Generate</button>
+    <a class="btn btn-outline-success" href="{% url 'payroll:salary_export_excel' %}">Export Payroll (Excel)</a>
+  </div>
+</form>
+
+<h5 class="mb-2">Recent Slips</h5>
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Code</th><th>Name</th><th>Month</th><th>Net Pay</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in slips %}
+      <tr>
+        <td>{{ s.employee.code }}</td>
+        <td>{{ s.employee.first_name }} {{ s.employee.last_name }}</td>
+        <td>{{ s.month|date:"M Y" }}</td>
+        <td>₹ {{ s.net_pay }}</td>
+        <td class="text-end">
+          <a class="btn btn-sm btn-outline-primary" href="{% url 'payroll:salary_detail' s.pk %}">View</a>
+          <a class="btn btn-sm btn-outline-dark" href="{% url 'payroll:salary_pdf' s.pk %}">PDF</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="text-center text-muted">No salary slips yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'payroll/layout/base.html' %}
+{% block title %}Employees | PayrollMS{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3 class="mb-0">Employees</h3>
+  {% if request.user.is_staff %}
+    <a class="btn btn-primary" href="{% url 'payroll:employee_add' %}">Add Employee</a>
+  {% endif %}
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Code</th><th>Name</th><th>Dept</th><th>Designation</th><th>Base Salary</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in employees %}
+      <tr>
+        <td>{{ e.code }}</td>
+        <td>{{ e.first_name }} {{ e.last_name }}</td>
+        <td>{{ e.department }}</td>
+        <td>{{ e.designation }}</td>
+        <td>₹ {{ e.base_salary }}</td>
+        <td class="text-end">
+          {% if request.user.is_staff %}
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'payroll:employee_edit' e.pk %}">Edit</a>
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'payroll:employee_delete' e.pk %}">Delete</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" class="text-center text-muted">No employees yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% if is_paginated %}
+<nav>
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+    {% endif %}
+    <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+    {% if page_obj.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'payroll/layout/base.html' %}
+{% block title %}Attendance | PayrollMS{% endblock %}
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 gap-2">
+  <h3 class="mb-0">Attendance</h3>
+  {% if request.user.is_staff %}
+    <div>
+      <a class="btn btn-primary" href="{% url 'payroll:attendance_add' %}">Add Attendance</a>
+    </div>
+  {% endif %}
+</div>
+
+{% if request.user.is_staff %}
+<form class="row g-2 mb-3">
+  <div class="col-auto">
+    <input type="date" class="form-control" name="date" value="{{ request.GET.date }}">
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-outline-secondary">Filter</button>
+  </div>
+</form>
+{% endif %}
+
+<div class="table-responsive">
+  <table class="table table-striped align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Date</th><th>Code</th><th>Name</th><th>Status</th><th>Hours</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in records %}
+      <tr>
+        <td>{{ r.date }}</td>
+        <td>{{ r.employee.code }}</td>
+        <td>{{ r.employee.first_name }} {{ r.employee.last_name }}</td>
+        <td>
+          {% if r.status == 'P' %}<span class="badge text-bg-success">Present</span>
+          {% elif r.status == 'A' %}<span class="badge text-bg-danger">Absent</span>
+          {% else %}<span class="badge text-bg-warning">Leave</span>{% endif %}
+        </td>
+        <td>{{ r.working_hours }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="text-center text-muted">No records.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

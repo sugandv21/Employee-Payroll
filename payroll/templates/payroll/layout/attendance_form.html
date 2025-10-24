@@ -1,0 +1,33 @@
+{% extends 'payroll/layout/base.html' %}
+{% block title %}Add Attendance | PayrollMS{% endblock %}
+{% block content %}
+<h3 class="mb-3">Add Attendance</h3>
+
+<form method="post" class="row g-3">
+  {% csrf_token %}
+  <div class="col-md-4">
+    <label class="form-label">Employee</label>
+    {{ form.employee }}
+    {{ form.employee.errors }}
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Date</label>
+    {{ form.date }}
+    {{ form.date.errors }}
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Status</label>
+    {{ form.status }}
+    {{ form.status.errors }}
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Working Hours</label>
+    {{ form.working_hours }}
+    {{ form.working_hours.errors }}
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary">Save</button>
+    <a class="btn btn-light" href="{% url 'payroll:attendance_list' %}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

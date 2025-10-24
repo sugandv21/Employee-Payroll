@@ -1,0 +1,40 @@
+{% extends 'payroll/layout/base.html' %}
+{% block title %}Home | PayrollMS{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="min-height: 30vh; background: linear-gradient(135deg, #e3f2fd, #f1f8e9); border-radius: 10px;">
+  <div class="row g-4">
+
+    <div class="col-md-4">
+      <div class="card shadow-sm border-primary border-top border-3">
+        <div class="card-body text-center">
+          <h6 class="text-muted text-uppercase">Employees</h6>
+          <h2 class="text-primary fw-bold">{{ emp_count }}</h2>
+          <a class="btn btn-sm btn-primary" href="{% url 'payroll:employee_list' %}">Manage</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm border-success border-top border-3">
+        <div class="card-body text-center">
+          <h6 class="text-muted text-uppercase">Attendance Records</h6>
+          <h2 class="text-success fw-bold">{{ att_count }}</h2>
+          <a class="btn btn-sm btn-success" href="{% url 'payroll:attendance_list' %}">View</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm border-warning border-top border-3">
+        <div class="card-body text-center">
+          <h6 class="text-muted text-uppercase">Salary Slips</h6>
+          <h2 class="text-warning fw-bold">{{ slip_count }}</h2>
+          <a class="btn btn-sm btn-warning text-white" href="{% url 'payroll:salary_generate' %}">Generate</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

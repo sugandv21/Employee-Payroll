@@ -1,0 +1,55 @@
+{% extends 'payroll/layout/base.html' %}
+{% block title %}Salary Slip | PayrollMS{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start flex-wrap">
+          <div>
+            <h4 class="mb-1">Salary Slip</h4>
+            <div class="text-muted">{{ slip.month|date:"F Y" }}</div>
+          </div>
+          <div class="mt-2 mt-md-0">
+            <a class="btn btn-dark btn-sm" href="{% url 'payroll:salary_pdf' slip.pk %}">Download PDF</a>
+          </div>
+        </div>
+        <hr>
+        <div class="row g-2">
+          <div class="col-md-6">
+            <div><strong>Employee:</strong> {{ slip.employee.code }} - {{ slip.employee.first_name }} {{ slip.employee.last_name }}</div>
+            <div><strong>Department:</strong> {{ slip.employee.department }}</div>
+            <div><strong>Designation:</strong> {{ slip.employee.designation }}</div>
+          </div>
+          <div class="col-md-6">
+            <div><strong>Generated:</strong> {{ slip.generated_at|date:"d M Y, H:i" }}</div>
+          </div>
+        </div>
+        <div class="row g-3 mt-3">
+          <div class="col-md-6">
+            <div class="card border-success">
+              <div class="card-header bg-success text-white py-2">Earnings</div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between"><span>Basic</span><span>₹ {{ slip.basic }}</span></div>
+                <div class="d-flex justify-content-between"><span>HRA (20%)</span><span>₹ {{ slip.hra }}</span></div>
+                <div class="d-flex justify-content-between"><span>Allowances</span><span>₹ {{ slip.allowances }}</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card border-danger">
+              <div class="card-header bg-danger text-white py-2">Deductions</div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between"><span>Total Deductions</span><span>₹ {{ slip.deductions }}</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-end fs-5 mt-3">
+          <strong>Net Pay: ₹ {{ slip.net_pay }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

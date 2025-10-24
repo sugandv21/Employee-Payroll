@@ -1,0 +1,12 @@
+{% extends 'payroll/layout/base.html' %}
+{% block title %}Delete Employee | PayrollMS{% endblock %}
+{% block content %}
+<div class="alert alert-warning">
+  <h5 class="mb-3">Confirm delete</h5>
+  <p>Delete employee <strong>{{ object }}</strong>?</p>
+  <form method="post">{% csrf_token %}
+    <button class="btn btn-danger">Yes, delete</button>
+    <a class="btn btn-light" href="{% url 'payroll:employee_list' %}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

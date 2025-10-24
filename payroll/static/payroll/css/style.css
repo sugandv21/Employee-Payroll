@@ -1,0 +1,60 @@
+.table-responsive { margin-top: 0.75rem; }
+.card { border-radius: 1rem; }
+
+/* === Layout Fixes for Navbar & Footer === */
+
+/* Make page full height layout */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Fixed navbar at top */
+.navbar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Ensure content is not hidden under navbar */
+.main-content {
+    padding-top: 80px; /* Adjust if navbar height changes */
+}
+
+/* Fixed footer at bottom */
+.footer-fixed {
+    margin-top: auto;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+
+/* Navbar gradient */
+.custom-navbar {
+  background: linear-gradient(90deg, #4b6cb7, #182848);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Navbar links hover */
+.custom-navbar .nav-link:hover {
+  color: #ffd700 !important;
+  transition: color 0.3s ease;
+}
+
+/* Footer gradient */
+.custom-footer {
+  background: linear-gradient(90deg, #182848, #4b6cb7);
+  color: #fff;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
